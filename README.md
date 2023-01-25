@@ -15,6 +15,12 @@ Der hier bereitgestellte Code benötigt i. d. R. eine Menge Anpassung und indivi
   - Entfernen von Code für nicht genutzte Optionen
   - Austausch von Beispielwerten
 - Absicherung von Ordnern
-  - Schutz von Salt-Cache und Datenbank-Ordner
+  - (besserer) Schutz von Salt-Cache und Datenbank-Ordner
   - Schutz von Conversion-Export-Datei
-Validierung am Endpunkt  
+- Validierung am Endpunkt  
+
+## Das musst Du selbst noch bauen
+- Abrufen von Conversions für Export analog zu Matomo etc. als "Service-URL" bereitstellen (SQL Beispiel-Code zum Abruf anbei)
+- Löschen veralteter Daten zur Reduktion / Kontrolle der Datenbank
+  - Optional: Löschen aller Daten des Vortags bei Ablauf des alten Hashs 
+- Statistik: CR, Wiederholungsrate, “Conversions: Paid vs. Other” etc.
