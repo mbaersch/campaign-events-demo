@@ -1,7 +1,7 @@
 # DEMO: First Party Conversion Tracking
 **Beispiel-Implementierung für First Party Kampagnentraffic- und Conversionvermessung mit JS, PHP und SQlite** 
 
-**Meet A.T.Z.E.**: Der Beispielcode in diesem Repo zeigt einen minimalen Code zum Tagging von Webseiten und einen Endpunkt zum Empfang und Verarbeitung von Eintritten auf Kampagnen-Landingpages (Start, Anfang oder "A") und Conversions (Ziel oder "Z") in Form von Events. *"A to Z Events"* sozusagen. Oder kurz: A.T.Z.E. ;) 
+**Meet A.T.Z.E.**: Der Beispielcode in diesem Repo zeigt einen minimalen Code zum Tagging von Webseiten und einen Endpunkt zum Empfang und Verarbeitung von Eintritten auf Kampagnen-Landingpages (Start, Anfang oder "A") und Conversions (Ziel oder "Z") in Form von Events. *"A to Z Events"* sozusagen. Oder kurz: A.T.Z.E. ;) Die Demo basiert auf der [First Party Tracking Demo](https://github.com/mbaersch/first-party-demo), reduziert auf minimale Erhebung von Daten im Browser und entsprechend reduziertem Endpunkt mit Fingerprint-Hashfunktion zur Referenzierung von Eintritten und Conversions. 
 
 ![Last Update](https://img.shields.io/github/last-commit/mbaersch/campaign-events-demo) ![Languages](https://img.shields.io/github/languages/count/mbaersch/campaign-events-demo) ![Top](https://img.shields.io/github/languages/top/mbaersch/campaign-events-demo)
 
