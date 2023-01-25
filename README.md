@@ -1,8 +1,18 @@
 # DEMO: First Party Conversion Tracking
-Beispiel-Implementierung für First Party Kampagnentraffic- und Conversionvermessung mit JS, PHP und SQlite. 
+**Beispiel-Implementierung für First Party Kampagnentraffic- und Conversionvermessung mit JS, PHP und SQlite** 
 
-## Meet A.T.Z.E.
-Der Beispielcode in diesem Repo zeigt einen minimalen Code zum Tagging von Webseiten und einen Endpunkt zum Empfang und Verarbeitung von Eintritten auf Kampagnen-Landingpages (Start, Anfang oder "A") und Conversions (Ziel oder "Z") in Form von Events. *"A to Z Events"* sozusagen. Oder kurz: A.T.Z.E. ;) 
+**Meet A.T.Z.E.**: Der Beispielcode in diesem Repo zeigt einen minimalen Code zum Tagging von Webseiten und einen Endpunkt zum Empfang und Verarbeitung von Eintritten auf Kampagnen-Landingpages (Start, Anfang oder "A") und Conversions (Ziel oder "Z") in Form von Events. *"A to Z Events"* sozusagen. Oder kurz: A.T.Z.E. ;) 
+
+![Last Update](https://img.shields.io/github/last-commit/mbaersch/campaign-events-demo) ![Languages](https://img.shields.io/github/languages/count/mbaersch/campaign-events-demo) ![Top](https://img.shields.io/github/languages/top/mbaersch/campaign-events-demo)
+
+--- 
+
+## Quick Setup 
+- Endpunktcode in `atze/index.php` konfigurieren (siehe Kommentare)
+- Endpunktdaten (index.php + Unterordner) aus `atze` in einen Ordner auf dem eigenen Webserver bereitstellen (mit einem anderen Namen, wer will schon einen *atze* Ordner?)
+- Code aus `atze-tag.js` anpassen (siehe unten) und in alle Seiten (oder zumindest Landingpages und Ziel-Seiten) implementieren
+- Sicherheits- und Anpassungshinweise unten beachten
+- Exportdateien via SQlite auf Basis der Datenbank erstellen (siehe Beispielcode in `sql/example-conversion-export.sql`)
 
 ## Keine fertige Lösung!
 Der hier bereitgestellte Code benötigt i. d. R. eine Menge Anpassung und individuelle Ergänzung, um auf einer Live-Website betrieben zu werden. 
