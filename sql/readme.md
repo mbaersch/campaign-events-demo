@@ -1,4 +1,7 @@
 # Inhalt des Ordners
+Die Dateien in diesem Ordner sind **nicht für die Demo erforderlich**. Es sind Beispiele zur Abfrage der SQLite DB: 
+
+## Conversion-Export
 Die Datei `example-conversion-export.sql` kann als Ausgangspunkt zur Erstellung einer eigenen dynamischen oder mit lokalem Cache versehenen Bereitstellungs-URL mittels PHP o. a. dienen. 
 
 **Tipp**: Kommentare im SQL Code für "Setup" beachten. 
