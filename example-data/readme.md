@@ -1,4 +1,4 @@
-## Inhalt des Ordners
+# Inhalt des Ordners
 Die Dateien in diesem Ordner sind **nicht für die Demo erforderlich**. Es sind Beispiele zum Vergleich beim Debugging der eigenen Implementierung: 
 
 - Logfile `campaigndata.log` im Textformat, wenn das einfache Logging aktiviert ist (alternativ oder zusammen mit der Speicherung als SQLite DB)
