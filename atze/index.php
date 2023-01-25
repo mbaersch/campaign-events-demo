@@ -42,7 +42,9 @@ else $type = null;
 if ($type !== null) {
 
   //URL der vermessenen URL steckt im Referrer  
-  $url = $_SERVER['HTTP_REFERER'];  
+  $url = $_SERVER['HTTP_REFERER'];
+  //... oder wird optional als Parameter "u" übergeben (z. B. zu Testzwecken)
+  if (!isset($url) || $url === "") $url = urldecode($_GET["u"]);   
 
   $userAgent = $_SERVER['HTTP_USER_AGENT'];
   if (! isset($_SERVER['HTTP_X_FORWARDED_FOR'])) 
@@ -56,7 +58,7 @@ if ($type !== null) {
     //die einfache, aber nicht ideale Methode: 
     //Salt aus Datei lesen und in Session cachen. 
     //Die Cache-Datei sollte htaccess-Schutz geniessen! 
-    $saltfile = "include/#salt";
+    $saltfile = "saltcache/#salt";
     $salt = "";
     $saltinfo = file_get_contents($saltfile);
     if (($saltinfo !== false) && ($saltinfo != "")) 
