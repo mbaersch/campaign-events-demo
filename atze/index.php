@@ -34,7 +34,7 @@ function generate_salt($length = 16) {
 //Auslesen des Typs: Eintritte haben einen Zufallswert als Parameter "a", 
 //Conversions als "z". Die URL wohnt im Referrer, der Rest in Headern
 if (isset($_GET["a"])) $type = "lnd"; 
-else if (isset($_GET["a"])) $type = "cnv"; 
+else if (isset($_GET["z"])) $type = "cnv"; 
 else $type = null;
 
 //Hier kann und sollte ggf. noch sinnvolle weitere Absicherung hinzugefügt 
