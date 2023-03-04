@@ -31,6 +31,8 @@ Der hier bereitgestellte Code benötigt i. d. R. eine Menge Anpassung und indivi
   - Entfernen von DB-Initcode
   - Entfernen von Code für nicht genutzte Optionen
   - Austausch von Beispielwerten
+ - Optimierung: Speichern von "Z" Events nur, wenn ein "A" Event gefunden wird 
+  
 - Absicherung von Ordnern
   - (besserer) Schutz von Salt-Cache und Datenbank-Ordner
   - Schutz von Conversion-Export-Datei
