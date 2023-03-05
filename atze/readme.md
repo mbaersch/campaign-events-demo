@@ -1,6 +1,9 @@
 # Hinweise zum Endpunkt
 Die Datei `index.php` enthält den Code zum Empfang der Events vom Browser, die der Tag Code bei Eintritten mit Kampagnenparametern oder Erreichen einer Ziel-URL sendet. 
 
+In `index-v1.php` findet sich eine Variante, die auch das Schreiben von einfachen Logs für den Start sowie eine vereinfachte Speicherung der Events in einer einzigen Tabelle beinhaltet - das macht allerdings den
+Abruf der Conversions komplexer. Die neuere Fassung arbeitet daher mit zwei Tabellen für "Conversions" und "Sessions".  
+
 Die Ordner `saltcache` zur Speicherung des Salt Werts für die Hash-Funktion (siehe unten) und `storage` enthalten lediglich `.htaccess` Dateien, die den öffentlichen Zugriff via HTTP verhindern. Hier entstehen bei Betrieb des Endpunkts die gespeicherte Salt Datei bzw. die Text-Logs und / oder SQLite DB. Je nach Setup von Dateinamen und Pfaden sind diese Ordner auf dem eigenen Server mit einem anderen Namen zu versehen; müssen aber i. d. R. durch Upload der `.htaccess` Dateien oder manuell angelegt werden, damit der Endpunkt seine Arbeit verrichten kann. 
 
 ## Die Hash Funktion
