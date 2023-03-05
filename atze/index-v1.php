@@ -2,8 +2,8 @@
 error_reporting(0);
 /******************************************************************************************
 * Beispielhafter Endpunkt für den Empfang und die Verarbeitung von Website Events, welche *
-* zur Vermessung von Eintritten mit Kampagnenparametern oder Erreichen von Zielen dienen. *                                            * 
-* VERSION 2: Speicherung Eintritte und Conversions in separaten Tabellen                  * 
+* zur Vermessung von Eintritten mit Kampagnenparametern oder Erreichen von Zielen dienen. * 
+* VERSION 1: Einfache Speicherung aller Events in einer Tabelle                           * 
 ******************************************************************************************/
 
 /********************************** SETUP START  **********************************/
@@ -11,14 +11,15 @@ error_reporting(0);
 //Laufen Fingerprints mit einem wechselnden Hash ab? Antwort: Idealerweise ja ;) 
 $fingerprintExpires = true;
 
-//Dateinamen für SQLite DB hier angeben 
-$sqlitefile = "storage/conversiondata.db";
+//Soll ein einfaches Logfile im Textformat erstellt werden? 
+//das sollte freilich nur zu Debug-Zwecken eingesetzt werden, sonst leer lassen
+$logfile = "storage/campaigndata.log";
+//$logfile = "";
 
-//Optional: Conversions auch am Server definieren und abweichende Namen und Werte einsetzen   
-$goals = [ 
-  "danke.html" => "Offline Conversion Import DE, 10.0", 
-  "thank-you.html" => "Offline Conversion Import EN, 22.5",
-];
+//Soll eine Sqlite Datenbank als First Party Ziel für Events genutzt werden, 
+//hier einen beliebigen Dateinamen eintragen oder leer lassen 
+$sqlitefile = "storage/campaigndata.sqlite";
+//$sqlitefile = "";
 
 /********************************** SETUP ENDE   **********************************/
 
@@ -33,15 +34,15 @@ function generate_salt($length = 16) {
 
 //Auslesen des Typs: Eintritte haben einen Zufallswert als Parameter "a", 
 //Conversions als "z". Die URL wohnt im Referrer, der Rest in Headern
-if (isset($_GET["a"])) $type = "A"; 
-else if (isset($_GET["z"])) $type = "Z"; 
+if (isset($_GET["a"])) $type = "lnd"; 
+else if (isset($_GET["z"])) $type = "cnv"; 
 else $type = null;
 
 //Hier kann und sollte ggf. noch sinnvolle weitere Absicherung hinzugefügt 
 //werden wie Prüfung des Referrers, Parameter o. Ä.   
 if ($type !== null) {
 
-  //URL der vermessenen Seite steckt im Referrer  
+  //URL der vermessenen URL steckt im Referrer  
   $url = $_SERVER['HTTP_REFERER'];
   //... oder wird optional als Parameter "u" übergeben (z. B. zu Testzwecken)
   if (!isset($url) || $url === "") $url = urldecode($_GET["u"]);   
@@ -81,58 +82,37 @@ if ($type !== null) {
     $salt = 's&6!l%aV<*MFy;~U';
     
   $hashValue = hash('md5', $in.$salt);
-  $day = date("Y-m-d");
   
-  //Verbindung mit der DB
-  $init = !file_exists($sqlitefile);
-  $db = new SQLite3($sqlitefile);
-
-  //Das checken und anlegen der Tabelle hier muss man streng genommen rauswerfen und die DB lokal erzeugen und hochladen - 
-  //wir lassen es hier nun zu Demozwecken einfach drin. Den Call kann und sollte man sich im Echtbetrieb allerdigs sparen. Auch ist diese
-  //Struktur der DB nur ein Beispiel mit wenigen Feldern und dem Event als Objekt in einem Datenfeld - das ist nicht ideal für alle denkbaren 
-  //Arten von Abfragen und sollte daher nach eigenem Bedarf angepasst werden. Infos zu DB und Struktur siehe https://www.sqlite.org/docs.html  
-  if ($init === true) {
-    $db-> exec("CREATE TABLE IF NOT EXISTS sessions(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      received TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      session_date TEXT, 
-      gclid TEXT, 
-      hashValue TEXT NOT NULL DEFAULT 'none',
-      landingpage TEXT)");
-
-    $db-> exec("CREATE TABLE IF NOT EXISTS conversions(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      received TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      conv_date TEXT, 
-      conv_name TEXT, 
-      conv_value TEXT, 
-      hashValue TEXT NOT NULL DEFAULT 'none',
-      goalpage TEXT)");
-
-  } 
-
-  //Neue Zeile in die DB einfügen und Verbindung trennen
-  if ($type === "A") {
-    $gclid = substr($url, strpos($url, "gclid=")+6);  
-    $db-> exec("INSERT INTO sessions(session_date, gclid, hashValue, landingpage) 
-                VALUES ('$day', '$gclid', '$hashValue', '$url')");
-  } else {
-    //Name und Wert der Conversion bestimmen...
-    $conv_name = "Offline Conversion";
-    $conv_value = 0;
-    foreach ($goals as $k => $v) {
-      if (strpos($url, $k) !== false) {
-        $v = explode(",", $v.",");
-        $conv_name = trim($v[0]);
-        $conv_value = trim($v[1]);
-        break;
-      }
-    }
-    $db-> exec("INSERT INTO conversions(conv_date, conv_name, conv_value, hashValue, goalpage) 
-                VALUES ('$day', '$conv_name', '$conv_value', '$hashValue', '$url')");
+  //in lokales Log schreiben?
+  if ($logfile != "") {
+    if (!file_exists($logfile)) touch($logfile);
+    file_put_contents($logfile, date(DATE_ATOM, time())."\t$hashValue\t$type\t$url\n", FILE_APPEND);
   }
 
-  $db->close();
+  //Speicherung in lokaler SQlite DB?
+  if ($sqlitefile != "") {
+
+    $init = !file_exists($sqlitefile);
+
+    //Verbindung mit der DB
+    $db = new SQLite3($sqlitefile);
+
+    //Das checken und anlegen der Tabelle hier muss man streng genommen rauswerfen und die DB lokal erzeugen und hochladen - 
+    //wir lassen es hier nun zu Demozwecken einfach drin. Den Call kann und sollte man sich im Echtbetrieb allerdigs sparen. Auch ist diese
+    //Struktur der DB nur ein Beispiel mit wenigen Feldern und dem Event als Objekt in einem Datenfeld - das ist nicht ideal für alle denkbaren 
+    //Arten von Abfragen und sollte daher nach eigenem Bedarf angepasst werden. Infos zu DB und Struktur siehe https://www.sqlite.org/docs.html  
+    if ($init === true) 
+      $db-> exec("CREATE TABLE IF NOT EXISTS campaignEvents(
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+       timeStamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+       hashValue TEXT NOT NULL DEFAULT 'none',
+       eventType TEXT DEFAULT 'none',
+       pageUrl TEXT)");
+
+    //Neue Zeile in die DB einfügen und Verbindung trennen
+    $db-> exec("INSERT INTO campaignEvents(hashValue, eventType, pageUrl) VALUES ('$hashValue', '$type', '$url')");
+    $db->close();
+  }
 
   //Geschafft. Pixel als Ergebnis:
   header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time())); // direkt
