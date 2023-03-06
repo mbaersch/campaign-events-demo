@@ -39,11 +39,10 @@ Der hier bereitgestellte Code benötigt i. d. R. eine Menge Anpassung und indivi
 - Validierung am Endpunkt  
 
 ## Das musst Du noch selbst bauen
-- Abrufen von Conversions für Export analog zu Matomo etc. als "Service-URL" bereitstellen (SQL Beispiel-Code zum Abruf anbei)
-  - Manuell mittels Download der SQLite DB und Abfrage mit [DB Browser for SQLite](https://sqlitebrowser.org/)
-  - Oder: Abruf per URL mittels PHP und Caching des Ergebnisses, anschließend Löschen oder Markieren exportierter Daten
-  - Oder: Export und ggf. Bereinigung als Cron Job einrichten 
-- Löschen veralteter Daten zur Reduktion / Kontrolle der Datenbank (als Cron Job o. Ä., siehe oben)
-  - Optional: Löschen älterer Daten (mit ausreichend Abstand zum Abruf bestehender Conversions) bei Ablauf des alten Hashs 
+- Abrufen von Conversions für Export analog zu Matomo etc. 
+  - Manuell mittels Download der SQLite DB und Abfrage mit [DB Browser for SQLite](https://sqlitebrowser.org/). Beispielcode für die Abfragen finden sich im Order `sql`
+  - Oder: Abruf per URL mittels PHP (und ggf. Caching) des Ergebnisses, anschließend Löschen oder Markieren exportierter Daten. SQL Beispiel-Code als Startpunkt zum Abruf im Order `atze/report`
+  - Optional: Bereinigung als Cron Job einrichten 
+  - Optional: Löschen älterer Daten (mit ausreichend Abstand zum Abruf bestehender Conversions) bei Ablauf des alten Hashs oder Abruf der Conversions des Vortags (Code-Beispiel ebenfalls in `atze/reports/index.php`)
 - Weitere Auswertungen: 
-  - Zum Beispiel Statistik zu CR, Wiederholungsrate, “Conversions: Paid vs. Other” etc. per (geschützter) PHP Report-Datei o. Ä.
+  - Zum Beispiel Statistik zu CR, Wiederholungsrate, “Conversions: Paid vs. Other” etc. per (geschützter) PHP Report-Datei o. Ä. auf Basis des Rumpf-Codes in `atze/reports/index.php`
