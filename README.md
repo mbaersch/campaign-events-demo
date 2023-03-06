@@ -43,6 +43,6 @@ Der hier bereitgestellte Code benötigt i. d. R. eine Menge Anpassung und indivi
   - Manuell mittels Download der SQLite DB und Abfrage mit [DB Browser for SQLite](https://sqlitebrowser.org/). Beispielcode für die Abfragen finden sich im Order `sql`
   - Oder: Abruf per URL mittels PHP (und ggf. Caching) des Ergebnisses, anschließend Löschen oder Markieren exportierter Daten. SQL Beispiel-Code als Startpunkt zum Abruf im Order `atze/report`
   - Optional: Bereinigung als Cron Job einrichten 
-  - Optional: Löschen älterer Daten (mit ausreichend Abstand zum Abruf bestehender Conversions) bei Ablauf des alten Hashs oder Abruf der Conversions des Vortags (Code-Beispiel ebenfalls in `atze/reports/index.php`)
+  - Optional: Löschen älterer Daten (mit ausreichend Abstand zum Abruf bestehender Conversions) bei Ablauf des alten Hashs oder Abruf der Conversions des Vortags (Code-Beispiel ebenfalls in `atze/report/index.php`)
 - Weitere Auswertungen: 
-  - Zum Beispiel Statistik zu CR, Wiederholungsrate, “Conversions: Paid vs. Other” etc. per (geschützter) PHP Report-Datei o. Ä. auf Basis des Rumpf-Codes in `atze/reports/index.php`
+  - Zum Beispiel Statistik zu CR, Wiederholungsrate, “Conversions: Paid vs. Other” etc. per (geschützter) PHP Report-Datei o. Ä. auf Basis des Rumpf-Codes in `atze/report/index.php`
